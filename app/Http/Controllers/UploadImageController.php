@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\File;
 use App\Models\Photo;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Storage;
 
 class UploadImageController extends Controller
 {
@@ -37,16 +39,22 @@ class UploadImageController extends Controller
             20,  240, // Point 2 (x, y)
             60,  60,  // Point 3 (x, y)
         );
+
 //        $image->update( imageline($photo, 4, 3, 800, 800, 000000));
         imagestring($photo, 46, 80, 80,'60gfg', 435435);
         imageline ($photo, 80,60,240,180, 435435);
         imagerectangle($photo, 80,60,240,180, 435435);
         imagearc($photo, 80,60,240,180, 0, 360, 435435);
         imagefilledpolygon($photo, $values,3,435435);
+        File::delete($image->image);
 //        $image->update("")
 //        dd(imagepng($photo));
 //        $photo->move(public_path('images'), $photo);
+        Storage::putFile( ( (imagepng($photo))), new File (public_path('images')));
+//        return( base64_decode(imagepng($photo)));
+//        dd
         return( base64_decode(imagepng($photo)));
+
 
 //dd($photo);
 //        dd(public_path('images').$photo);
@@ -61,12 +69,52 @@ class UploadImageController extends Controller
 //(Photo::all('image'));
     }
 
-    public function rectangle(Request $request)
+    public function update(Request $request)
     {
-        $photo=$request->image;
+
+        $x1=$request->x1;
+        $x2=$request->x2;
+        $y1=$request->y1;
+        $y2=$request->y2;
+        $height=$request->height;
+        $width=$request->width;
+        $color=$request->color;
+        $forms=$request->form;
+        $form =explode(' ', $forms);
+        $image=Photo::find(30);
+        $photo =public_path('images').'/'.$image->image;
+        $photo=(imagecreatefrompng("$photo"));
+//        if($value=='квадрат' || $value=='прямоугольник')
+
+//foreach ($form as $value)
+//{
+    if($value=='квадрат' || $value=='прямоугольник')
+    {
+        imagerectangle($photo, $x1,$y1,$x2,$y2, $color);
+
+//        var_dump($request);
+    }
+    if($value=='окружность')
+    {
+        imagearc($photo, $x1,$y1,$width,$height, 0, 360, $color);
+    }
+    if($value=='отрезок')
+    {
+        imageline ($photo, $x1,$y1,$x2,$y1, $color);
+    }
+    if($value=='треугольник')
+    {
+        imagerectangle($photo, $x1,$y1,$x2,$y2, $color);
+    }
+//}
+//        dd($color);
+
+//dd($photo);
+//        $photo=$request->image;
+//        imagerectangle($photo, $x1,$y1,$x2,$y2, $color);
         header("Content-type: image/png");
-        imagerectangle($photo, 80,60,240,180, 435435);
-        return $photo;
+
+        return( base64_decode(imagepng($photo)));
     }
 
 

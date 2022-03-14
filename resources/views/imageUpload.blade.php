@@ -14,6 +14,11 @@
     </style>
 </head>
 <body class="bg-dark">
+
+<div id="example-2">
+    <!-- `greet` — это название метода, определённого ниже -->
+    <button v-on:click="greet">Поприветствовать</button>
+</div>
 <div class="container">
     <div class="row">
         <div class="col-md-6 offset-3 mt-5">
@@ -26,21 +31,15 @@
                     </div>
                     <div class="success alert alert-success">
                         <h1>bjhbjh</h1>
-{{--                        {{        header("Content-type: image/png")}}--}}
-{{--<img src="public/images/1647000710.jpg">--}}
-{{--                       {{--}}
-{{--   var_dump( $_REQUEST)--}}
-{{--}}--}}
-{{--                        <img id="image"/>--}}
-{{--                        <script>--}}
-{{--                            var loadFile = function(event) {--}}
-{{--                                var output = document.getElementById('image');--}}
-{{--                                output.src = URL.createObjectURL(event.target.files[0]);--}}
-{{--                                output.onload = function() {--}}
-{{--                                    URL.revokeObjectURL(output.src) // free memory--}}
-{{--                                }--}}
-{{--                            };--}}
-{{--                        </script>--}}
+                        <select class="form-select" aria-label="Default select example">
+                            <option selected>Open this select menu</option>
+                            <option value="квадрат/прямоугольник">квадрат/прямоугольник</option>
+
+                            <option value="окружность">окружность</option>
+                            <option value="отрезок">отрезок</option>
+                            <option value="треугольник">треугольник</option>
+                            <option value="текст">текст</option>
+                        </select>
                     </div>
                     <form enctype="multipart/form-data" id="imageUpload">
                         <div class="form-group">
@@ -59,6 +58,16 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <script type="text/javascript">
+    import Vue from 'https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.esm.browser.js'
+
+    new Vue({
+        el: '#example-3',
+        methods: {
+            say: function (message) {
+                alert(message)
+            }
+        }
+    })
     $(document).ready(function () {
         $('.success').hide();
     });
