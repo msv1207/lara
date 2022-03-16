@@ -9,6 +9,20 @@ use Illuminate\Http\Request;
 class formController extends Controller
 {
     //
+    private $url, $photo;
+
+
+    private function svgGenerate()
+    {
+        ConvertApi::setApiSecret(env('API_KEY'));
+        $result = ConvertApi::convert('svg', [
+            'File' => $this->url,
+        ], 'png'
+        );
+        $result->saveFiles(public_path('images'));
+        return  exif_thumbnail( $this->photo);
+    }
+
     public function line(Request $request)
     {
 
@@ -20,32 +34,19 @@ class formController extends Controller
             'y2' => 'required',
             'color' => 'required',
         ]);
-//        var_dump($request);
         $image=Photo::find($request->id);
-        $im =public_path('images').'/'.$image->image;
-        $url=$im;
-        $photo=(imagecreatefrompng("$im"));
-        imageline ($photo, $request->x1, $request->y1, $request->x2, $request->y2, $request->color);
-        base64_decode(imagepng( ($photo), $im));
-        header("Content-type: image/png");
-        ConvertApi::setApiSecret(env('API_KEY'));
-        $result = ConvertApi::convert('svg', [
-            'File' => $url,
-        ], 'png'
-        );
-        $result->saveFiles(public_path('images'));
-//        $url = 'http://server.com/image.png';
-//        $data = json_decode(file_get_contents("http://api.rest7.com/v1/raster_to_vector.php?file=C:\fakepath\depositphotos_2983099-stock-illustration-grunge-design.png&format=svg&api_key=903796c2b0aa417dc725eab8d588e3e7a09a8cc2"));
-//
-//        if (@$data->success !== 1)
-//        {
-//            die('Failed');
-//        }
-//        $vec = file_get_contents($data->file);
-//        file_put_contents($url , $vec);
-//        return $result;
-//        return  exif_thumbnail(imagepng($photo));
-       return json_encode("Sucsess");
+        $this->url =public_path('images').'/'.$image->image;
+        if(filetype($this->photo)=='png') {
+            $this->photo = (imagecreatefrompng($this->url));
+            imageline($this->photo, $request->x1, $request->y1, $request->x2, $request->y2, $request->color);
+            imagepng(($this->photo), $this->url);
+        }else{
+            $this->photo = (imagecreatefromjpeg($this->url));
+            imageline($this->photo, $request->x1, $request->y1, $request->x2, $request->y2, $request->color);
+            imagejpeg(($this->photo), $this->url);
+        }
+
+        return redirect()->action($this->svgGenerate());
     }
 
     public function rectangle(Request $request)
@@ -59,12 +60,18 @@ class formController extends Controller
             'color' => 'required',
         ]);
         $image=Photo::find($request->id);
-        $im =public_path('images').'/'.$image->image;
-        $photo=(imagecreatefrompng($im));
-        imagerectangle($photo, $request->x1, $request->x2, $request->y1, $request->y2, $request->color);
-        imagepng($photo, $im);
-        header("Content-type: image/png");
-        return base64_decode(imagepng($photo));
+        $this->url =public_path('images').'/'.$image->image;
+        if(filetype($this->photo)=='png') {
+            $this->photo = (imagecreatefrompng($this->url));
+            imagefilledrectangle($this->photo, $request->x1, $request->y1, $request->x2, $request->y2, $request->color);
+            imagepng(($this->photo), $this->url);
+        }else{
+            $this->photo = (imagecreatefromjpeg($this->url));
+            imagefilledrectangle($this->photo, $request->x1, $request->y1, $request->x2, $request->y2, $request->color);
+            imagejpeg(($this->photo), $this->url);
+        }
+
+        return redirect()->action($this->svgGenerate());
 
     }
     public function arc(Request $request)
@@ -78,17 +85,18 @@ class formController extends Controller
             'color' => 'required',
         ]);
         $image=Photo::find($request->id);
-        $im =public_path('images').'/'.$image->image;
-        $photo=(imagecreatefrompng("$im"));
-//        $request->toArray();
-//        imagearc($photo, $x1,$y1,$width,$height, 0, 360, $color);
+        $this->url =public_path('images').'/'.$image->image;
+        if(filetype($this->photo)=='png') {
+            $this->photo = (imagecreatefrompng($this->url));
+            imagearc($this->photo, $request->x1, $request->y1, $request->width,$request->height, 0, 360, $request->color);
+            imagepng(($this->photo), $this->url);
+        }else{
+            $this->photo = (imagecreatefromjpeg($this->url));
+            imagearc($this->photo, $request->x1, $request->y1, $request->width,$request->height, 0, 360, $request->color);
+            imagejpeg(($this->photo), $this->url);
+        }
 
-        imagearc($photo, $request->x1, $request->y1, $request->width,$request->height, 0, 360, $request->color);
-        imagepng($photo, $im);
-
-        header("Content-type: image/png");
-
-        return base64_decode(imagepng($photo));
+        return redirect()->action($this->svgGenerate());
 
     }
     public function triangle(Request $request)
@@ -103,21 +111,24 @@ class formController extends Controller
             'y3' => 'required',
             'color' => 'required',
         ]);
-        $image=Photo::find($request->id);
-        $im =public_path('images').'/'.$image->image;
-        $photo=(imagecreatefrompng("$im"));
-//        $request->toArray();
         $values = array(
             $request->x1,  $request->y1,
             $request->x2,  $request->y2,
             $request->x3,  $request->y3,
         );
-        imagefilledpolygon($photo, $values, 3, $request->color);
-        imagepng($photo, $im);
+        $image=Photo::find($request->id);
+        $this->url =public_path('images').'/'.$image->image;
+        if(filetype($this->photo)=='png') {
+            $this->photo = (imagecreatefrompng($this->url));
+            imagefilledpolygon($this->photo, $values, 3, $request->color);
+            imagepng(($this->photo), $this->url);
+        }else{
+            $this->photo = (imagecreatefromjpeg($this->url));
+            imagefilledpolygon($this->photo, $values, 3, $request->color);
+            imagejpeg(($this->photo), $this->url);
+        }
 
-        header("Content-type: image/png");
-
-        return base64_decode(imagepng($photo));
+        return redirect()->action($this->svgGenerate());
 
     }
     public function text(Request $request)
@@ -131,15 +142,19 @@ class formController extends Controller
             'color' => 'required',
         ]);
         $image=Photo::find($request->id);
-        $im =public_path('images').'/'.$image->image;
-        $photo=(imagecreatefrompng("$im"));
-//        $request->toArray();
-        imagestring($photo, $request->font, $request->x1, $request->y1,$request->text, $request->color);
-        imagepng($photo, $im);
+        $this->url =public_path('images').'/'.$image->image;
+        if(filetype($this->photo)=='png') {
+            $this->photo = (imagecreatefrompng($this->url));
+            imagestring($this->photo, $request->font, $request->x1, $request->y1,$request->text, $request->color);
+            imagepng(($this->photo), $this->url);
+        }else{
+            $this->photo = (imagecreatefromjpeg($this->url));
+            imagestring($this->photo, $request->font, $request->x1, $request->y1,$request->text, $request->color);
+            imagejpeg(($this->photo), $this->url);
+        }
 
-        header("Content-type: image/png");
+        return redirect()->action($this->svgGenerate());
 
-        return base64_decode(imagepng($photo));
 
     }
 

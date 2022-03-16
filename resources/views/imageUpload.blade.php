@@ -14,11 +14,6 @@
     </style>
 </head>
 <body class="bg-dark">
-
-<div id="example-2">
-    <!-- `greet` — это название метода, определённого ниже -->
-    <button v-on:click="greet">Поприветствовать</button>
-</div>
 <div class="container">
     <div class="row">
         <div class="col-md-6 offset-3 mt-5">
@@ -29,19 +24,8 @@
                     <div class="alert alert-danger print-error-msg" style="display:none">
                         <ul></ul>
                     </div>
-                    <div class="success alert alert-success">
-                        <h1>bjhbjh</h1>
-                        <select class="form-select" aria-label="Default select example">
-                            <option selected>Open this select menu</option>
-                            <option value="квадрат/прямоугольник">квадрат/прямоугольник</option>
-
-                            <option value="окружность">окружность</option>
-                            <option value="отрезок">отрезок</option>
-                            <option value="треугольник">треугольник</option>
-                            <option value="текст">текст</option>
-                        </select>
-                    </div>
                     <form enctype="multipart/form-data" id="imageUpload">
+                        @csrf
                         <div class="form-group">
                             <label><strong>Image : </strong></label>
                             <input type="file" name="image" class="form-control">
@@ -57,59 +41,12 @@
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js" integrity="sha384-qlmct0AOBiA2VPZkMY3+2WqkHtIQ9lSdAsAn5RUJD/3vA5MKDgSGcdmIv4ycVxyn" crossorigin="anonymous"></script>
 <script type="text/javascript">
-    // import Vue from 'https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.esm.browser.js'
 
-    // new Vue({
-    //     el: '#example-3',
-    //     methods: {
-    //         say: function (message) {
-    //             alert(message)
-    //         }
-    //     }
-    })
-    $(document).ready(function () {
-        $('.success').hide();
-    });
+    $("#imageUpload").ajaxForm({url: 'imageUpload', type: 'post'})
 
-    $('#imageUpload').on('submit',(function(e) {
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
 
-        e.preventDefault();
-        var formData = new FormData(this);
-        $.ajax({
-            type:'POST',
-            url: "{{ route('imageUpload')}}",
-            data:formData,
-            cache:false,
-            contentType: false,
-            processData: false,
-
-            complete: function(response)
-            {
-                if($.isEmptyObject(response.responseJSON.error)){
-                    $('.success').show();
-                    setTimeout(function(){
-                        $('.success').hide();
-                    }, 5000);
-                }else{
-                    printErrorMsg(response.responseJSON.error);
-                }
-            }
-
-        });
-    }));
-    function printErrorMsg(msg){
-        $(".print-error-msg").find("ul").html('');
-        $(".print-error-msg").css('display','block');
-        $.each( msg, function( key, value ) {
-            $(".print-error-msg").find("ul").append('<li>'+value+'</li>');
-        });
-    }
 </script>
 </body>
 </html>
