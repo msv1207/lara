@@ -19,11 +19,12 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('imageUpload', [UploadImageController::class, 'imageUpload']);
 Route::post('imageUpload', [UploadImageController::class, 'imageUploadPost'])->name('imageUpload');
+Route::view('update', 'updateImage');
+
 Route::get('show', [UploadImageController::class, 'index']);
-Route::view('test', 'imageUpload');
-//Route::get('test', [UploadImageController::class, 'update']);
+Route::view('Upload', 'imageUpload');
+
 Route::get('/line', [formController::class, 'line']);
 Route::post('/line', [formController::class, 'line'])->name('line');
 
@@ -38,9 +39,3 @@ Route::post('/triangle', [formController::class, 'triangle'])->name('triangle');
 
 Route::get('/text', [formController::class, 'text']);
 Route::post('/text', [formController::class, 'text'])->name('text');
-
-//Route::get('/{form}', [formController::class, 'triangle'])->where('form', 'triangle');
-//Route::get('/{form}', [formController::class, 'text'])->where('form', 'text');
-Route::view('test1', 'updateImage');
-
-

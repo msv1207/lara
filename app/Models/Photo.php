@@ -10,7 +10,6 @@ class Photo extends Model
     use HasFactory;
 
     protected $fillable = [
-        'image'
+        'image',
     ];
-
 }
