@@ -3,16 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Photo;
-use Illuminate\Filesystem\Filesystem;
+use ConvertApi\ConvertApi;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class formController extends Controller
 {
     //
     public function line(Request $request)
     {
-        var_dump($request->all());
 
         $request->validate([
             'id' => 'required',
@@ -25,13 +23,29 @@ class formController extends Controller
 //        var_dump($request);
         $image=Photo::find($request->id);
         $im =public_path('images').'/'.$image->image;
+        $url=$im;
         $photo=(imagecreatefrompng("$im"));
         imageline ($photo, $request->x1, $request->y1, $request->x2, $request->y2, $request->color);
-        imagepng($photo, $im);
+        base64_decode(imagepng( ($photo), $im));
         header("Content-type: image/png");
-        echo (imagepng($photo));
-        return (imagepng($photo));
-        return "images/". Photo::find($request->id)->image;
+        ConvertApi::setApiSecret(env('API_KEY'));
+        $result = ConvertApi::convert('svg', [
+            'File' => $url,
+        ], 'png'
+        );
+        $result->saveFiles(public_path('images'));
+//        $url = 'http://server.com/image.png';
+//        $data = json_decode(file_get_contents("http://api.rest7.com/v1/raster_to_vector.php?file=C:\fakepath\depositphotos_2983099-stock-illustration-grunge-design.png&format=svg&api_key=903796c2b0aa417dc725eab8d588e3e7a09a8cc2"));
+//
+//        if (@$data->success !== 1)
+//        {
+//            die('Failed');
+//        }
+//        $vec = file_get_contents($data->file);
+//        file_put_contents($url , $vec);
+//        return $result;
+//        return  exif_thumbnail(imagepng($photo));
+       return json_encode("Sucsess");
     }
 
     public function rectangle(Request $request)

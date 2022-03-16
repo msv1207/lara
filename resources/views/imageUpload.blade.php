@@ -58,15 +58,15 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <script type="text/javascript">
-    import Vue from 'https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.esm.browser.js'
+    // import Vue from 'https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.esm.browser.js'
 
-    new Vue({
-        el: '#example-3',
-        methods: {
-            say: function (message) {
-                alert(message)
-            }
-        }
+    // new Vue({
+    //     el: '#example-3',
+    //     methods: {
+    //         say: function (message) {
+    //             alert(message)
+    //         }
+    //     }
     })
     $(document).ready(function () {
         $('.success').hide();

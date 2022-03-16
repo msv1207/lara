@@ -132,27 +132,27 @@
         e.preventDefault(); // avoid to execute the actual submit of the form.
 
         var form = $(this);
-        // var actionUrl = form.attr('line');
+        var actionUrl = form.attr('line');
+         alert( $.post('line', $('#myDiv0').serialize()))
 
         // $.ajaxSetup({
         //     headers: {
         //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         //     }
         // });
-        $.ajax({
-            type: "POST",
-            url: 'line',
-            contentType: "image/png",
-            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-
-            // data: form.serialize(), // serializes the form's elements.
-            success: function (data) {
-                // var img = document.createElement('img');
-                // img.src=data;
-                document.getElementById('body').append(data);
-            }
-        });
-    });
+        // $.ajax({
+        //     type: "POST",
+        //     url: 'line',
+        //     contentType: "image/png",
+        //     data: $('#myDiv0').serialize(), // serializes the form's elements.
+        //     headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+        //
+        //     // data: form.serialize(), // serializes the form's elements.
+        //     complete: function (data) {
+        //         alert(data);
+        //     }
+        // });
+    })
 
 </script>
 </body>
