@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Photo;
+use App\Models\User;
+use Closure;
 use ConvertApi\ConvertApi;
 use Illuminate\Http\Request;
 
@@ -11,6 +13,12 @@ class formController extends Controller
     //
     private $url;
     private $photo;
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+
+    }
 
     private function svgGenerate()
     {
@@ -24,7 +32,8 @@ class formController extends Controller
         );
         $result->saveFiles(public_path('images'));
 
-        return  exif_thumbnail(imagecreatefromgd($this->photo));
+        return 'updated';
+//            exif_thumbnail(imagecreatefromgd($this->photo));
     }
 
     public function line(Request $request)
@@ -37,14 +46,15 @@ class formController extends Controller
             'y2' => 'required|integer|min:0',
             'color' => 'required|integer|min:0',
         ]);
+
         $image = Photo::find($request->id);
         $this->url = public_path('images') . '/' . $image->image;
-        if (filetype($this->photo) == 'png') {
-            $this->photo = (imagecreatefrompng($this->url));
+        if (mime_content_type($this->url) == 'image/png') {
+            $this->photo = imagecreatefrompng($this->url);
             imageline($this->photo, $request->x1, $request->y1, $request->x2, $request->y2, $request->color);
             imagepng(($this->photo), $this->url);
         } else {
-            $this->photo = (imagecreatefromjpeg($this->url));
+            $this->photo = imagecreatefromjpeg($this->url);
             imageline($this->photo, $request->x1, $request->y1, $request->x2, $request->y2, $request->color);
             imagejpeg(($this->photo), $this->url);
         }
@@ -64,7 +74,7 @@ class formController extends Controller
         ]);
         $image = Photo::find($request->id);
         $this->url = public_path('images') . '/' . $image->image;
-        if (filetype($this->photo) == 'png') {
+        if (mime_content_type($this->url) == 'image/png') {
             $this->photo = (imagecreatefrompng($this->url));
             imagefilledrectangle($this->photo, $request->x1, $request->y1, $request->x2, $request->y2, $request->color);
             imagepng(($this->photo), $this->url);
@@ -89,7 +99,7 @@ class formController extends Controller
         ]);
         $image = Photo::find($request->id);
         $this->url = public_path('images') . '/' . $image->image;
-        if (filetype($this->photo) == 'png') {
+        if (mime_content_type($this->url) == 'image/png') {
             $this->photo = (imagecreatefrompng($this->url));
             imagearc($this->photo, $request->x1, $request->y1, $request->width, $request->height, 0, 360, $request->color);
             imagepng(($this->photo), $this->url);
@@ -121,7 +131,9 @@ class formController extends Controller
         ];
         $image = Photo::find($request->id);
         $this->url = public_path('images') . '/' . $image->image;
-        if (filetype($this->photo) == 'png') {
+       var_dump((($this->url)));
+//        echo(pathinfo($this->url, PATHINFO_EXTENSION));
+        if (mime_content_type($this->url) == "image/png") {
             $this->photo = (imagecreatefrompng($this->url));
             imagefilledpolygon($this->photo, $values, 3, $request->color);
             imagepng(($this->photo), $this->url);
@@ -146,7 +158,7 @@ class formController extends Controller
         ]);
         $image = Photo::find($request->id);
         $this->url = public_path('images') . '/' . $image->image;
-        if (filetype($this->photo) == 'png') {
+        if (mime_content_type($this->url) == 'image/png') {
             $this->photo = (imagecreatefrompng($this->url));
             imagestring($this->photo, $request->font, $request->x1, $request->y1, $request->text, $request->color);
             imagepng(($this->photo), $this->url);

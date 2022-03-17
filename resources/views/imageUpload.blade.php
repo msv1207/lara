@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js" integrity="sha384-qlmct0AOBiA2VPZkMY3+2WqkHtIQ9lSdAsAn5RUJD/3vA5MKDgSGcdmIv4ycVxyn" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha256-L/W5Wfqfa0sdBNIKN9cG6QA5F2qx4qICmU2VgLruv9Y=" crossorigin="anonymous" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha256-WqU1JavFxSAMcLP2WIOI+GB2zWmShMI82mTpLDcqFUg=" crossorigin="anonymous"></script>
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -25,7 +25,7 @@
                     <div class="alert alert-danger print-error-msg" style="display:none">
                         <ul></ul>
                     </div>
-                    <form enctype="multipart/form-data" id="imageUpload">
+                    <form enctype="multipart/form-data" id="imageUpload" action="/imageUpload" method="POST">
                         @csrf
                         <div class="form-group">
                             <label><strong>Image : </strong></label>
@@ -40,8 +40,38 @@
         </div>
     </div>
 </div>
+<form method="get" action="/update">
+    <button type="submit">Continue</button>
+</form>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <script type="text/javascript">
-    $("#imageUpload").ajaxForm({url: 'imageUpload', type: 'post'})
-</script>
+    $('#imageUpload').on('submit',(function(e) {
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        e.preventDefault();
+        var formData = new FormData(this);
+        $.ajax({
+            type:'POST',
+            url: "{{ route('imageUpload')}}",
+            data:formData,
+            cache:false,
+            contentType: false,
+            processData: false,
+            complete: function(response)
+            {
+                if($.isEmptyObject(response.responseJSON.error)){
+                    $('.success').show();
+                    setTimeout(function(){
+                        $('.success').hide();
+                    }, 5000);
+                }else{
+                    printErrorMsg(response.responseJSON.error);
+                }
+            }
+        });
+    }));</script>
 </body>
 </html>
