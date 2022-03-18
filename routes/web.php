@@ -1,9 +1,9 @@
 <?php
 
 use App\Http\Controllers\formController;
-use App\Http\Controllers\UploadImageController;
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\imageController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,15 +15,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
-Route::post('imageUpload', [UploadImageController::class, 'imageUploadPost'])->name('imageUpload');
 Route::view('update', 'updateImage');
 
-Route::get('show', [UploadImageController::class, 'show']);
-Route::view('Upload', 'imageUpload');
+Route::view('/', 'uploadImage');
 
 Route::post('/line', [formController::class, 'line'])->name('line');
 
@@ -37,4 +32,7 @@ Route::post('/text', [formController::class, 'text'])->name('text');
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index']);
+Route::get('/home', [HomeController::class, 'index']);
+
+
+Route::resource('image', imageController::class);

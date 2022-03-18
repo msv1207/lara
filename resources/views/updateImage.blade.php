@@ -239,5 +239,4 @@
         $.post('text', $('#myDiv4').serialize())
     })
 </script>
-</body>
 </html>
