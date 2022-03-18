@@ -85,7 +85,7 @@ class formController extends Controller
         if (mime_content_type($this->url) == 'image/png') {
             $this->photo = (imagecreatefrompng($this->url));
             imagefilledrectangle($this->photo, $request->x1, $request->y1, $request->x2, $request->y2, $request->color);
-            imagepng(($this->photo), $this->url);
+            imagepng($this->photo, $this->url, 0);
         } else {
             $this->photo = (imagecreatefromjpeg($this->url));
             imagefilledrectangle($this->photo, $request->x1, $request->y1, $request->x2, $request->y2, $request->color);
@@ -113,7 +113,7 @@ class formController extends Controller
         if (mime_content_type($this->url) == 'image/png') {
             $this->photo = (imagecreatefrompng($this->url));
             imagearc($this->photo, $request->x1, $request->y1, $request->width, $request->height, 0, 360, $request->color);
-            imagepng(($this->photo), $this->url);
+            imagepng($this->photo, $this->url, 0);
         } else {
             $this->photo = (imagecreatefromjpeg($this->url));
             imagearc($this->photo, $request->x1, $request->y1, $request->width, $request->height, 0, 360, $request->color);
@@ -148,7 +148,7 @@ class formController extends Controller
         if (mime_content_type($this->url) == "image/png") {
             $this->photo = (imagecreatefrompng($this->url));
             imagefilledpolygon($this->photo, $values, 3, $request->color);
-            imagepng(($this->photo), $this->url);
+            imagepng($this->photo, $this->url, 0);
         } else {
             $this->photo = (imagecreatefromjpeg($this->url));
             imagefilledpolygon($this->photo, $values, 3, $request->color);
@@ -175,7 +175,7 @@ class formController extends Controller
         if (mime_content_type($this->url) == 'image/png') {
             $this->photo = (imagecreatefrompng($this->url));
             imagestring($this->photo, $request->font, $request->x1, $request->y1, $request->text, $request->color);
-            imagepng(($this->photo), $this->url);
+            imagepng($this->photo, $this->url, 0);
         } else {
             $this->photo = (imagecreatefromjpeg($this->url));
             imagestring($this->photo, $request->font, $request->x1, $request->y1, $request->text, $request->color);
