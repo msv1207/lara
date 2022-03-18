@@ -199,6 +199,9 @@
     </div>
     <input type="submit" value="Отправить">
 </form>
+<form method="get" action="/show">
+    <button type="submit">Continue</button>
+</form>
 </body>
 
 <script type="text/javascript">
@@ -236,5 +239,4 @@
         $.post('text', $('#myDiv4').serialize())
     })
 </script>
-</body>
 </html>

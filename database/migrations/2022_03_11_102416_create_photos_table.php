@@ -15,6 +15,8 @@ return new class extends Migration {
         Schema::create('photos', function (Blueprint $table) {
             $table->id();
             $table->string('image');
+            $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->boolean('preview')->default(0);
             $table->timestamps();
         });
     }
