@@ -22,13 +22,12 @@ class imageController extends Controller
      */
     public function index()
     {
-        $id=Auth::id();
+        $id = Auth::id();
         $image = Photo::all()->where('user_id', '=', $id)->where('preview', '=', '1');
         $output = '';
         header('Content-type: image/jpeg');
 
         foreach ($image as $value) {
-
             $im = (asset('images') . '/' . $value->image);
             $output .= "<img src=$im> <br>";
             $value->id--;
@@ -66,25 +65,24 @@ class imageController extends Controller
         $request->image->move(public_path('images'), $input['image']);
         $id = Auth::user()->id;
         $preview = new previewController();
-        $previewImage=$preview->makePreview($input['image']);
-        Photo::query()->insert
-        ([
+        $previewImage = $preview->makePreview($input['image']);
+        Photo::query()->insert([
             [
                 'image' => $input['image'],
                 'user_id' => $id,
                 'preview' => '0',
-                'created_at' =>  Carbon::now()
+                'created_at' => Carbon::now(),
             ],
             [
                 'image' => $previewImage,
                 'user_id' => $id,
                 'preview' => '1',
-                'created_at' =>  Carbon::now()
+                'created_at' => Carbon::now(),
 
-            ]
+            ],
         ]);
 
-        return Response()->json(['success'=>'Image Upload Successfully']);
+        return Response()->json(['success' => 'Image Upload Successfully']);
     }
 
     /**
@@ -95,7 +93,7 @@ class imageController extends Controller
      */
     public function show($id)
     {
-        $user_id=Auth::id();
+        $user_id = Auth::id();
         $image = Photo::query()->where('user_id', '=', $user_id)->find($id);
         $output = '';
         header('Content-type: image/jpeg');

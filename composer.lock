@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fd35a75f6cdca3a4b9522360de977b97",
+    "content-hash": "0a40cf3d914f78e4f909b49452abde55",
     "packages": [
         {
             "name": "brick/math",
@@ -139,7 +139,6 @@
                 "phpstan/phpstan": "^0.12.42",
                 "phpunit/phpunit": "^7.5 || ^8.5 || ^9.3",
                 "scrutinizer/ocular": "1.6.0",
-                "squizlabs/php_codesniffer": "^3.5",
                 "vimeo/psalm": "^3.14"
             },
             "type": "library",
@@ -5832,6 +5831,43 @@
             "time": "2022-01-07T12:00:00+00:00"
         },
         {
+            "name": "fossbarrow/laravel-phpcs",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/fossbarrow/laravel-phpcs.git",
+                "reference": "afe30dc96a8bbe34ccf29fb3d1e3368264daa573"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/fossbarrow/laravel-phpcs/zipball/afe30dc96a8bbe34ccf29fb3d1e3368264daa573",
+                "reference": "afe30dc96a8bbe34ccf29fb3d1e3368264daa573",
+                "shasum": ""
+            },
+            "require-dev": {
+                "php": "^7.4",
+                "squizlabs/php_codesniffer": "^3.5.5"
+            },
+            "default-branch": true,
+            "type": "phpcs-ruleset",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "patricnox",
+                    "email": "hello@patricnox.info"
+                }
+            ],
+            "description": "phpcs ruleset for laravel projects",
+            "support": {
+                "issues": "https://github.com/fossbarrow/laravel-phpcs/issues",
+                "source": "https://github.com/fossbarrow/laravel-phpcs/tree/main"
+            },
+            "time": "2022-02-04T08:51:16+00:00"
+        },
+        {
             "name": "friendsofphp/php-cs-fixer",
             "version": "v3.7.0",
             "source": {
@@ -8357,6 +8393,62 @@
             "time": "2022-03-17T11:01:36+00:00"
         },
         {
+            "name": "squizlabs/php_codesniffer",
+            "version": "3.6.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/squizlabs/PHP_CodeSniffer.git",
+                "reference": "5e4e71592f69da17871dba6e80dd51bce74a351a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/5e4e71592f69da17871dba6e80dd51bce74a351a",
+                "reference": "5e4e71592f69da17871dba6e80dd51bce74a351a",
+                "shasum": ""
+            },
+            "require": {
+                "ext-simplexml": "*",
+                "ext-tokenizer": "*",
+                "ext-xmlwriter": "*",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.0 || ^5.0 || ^6.0 || ^7.0"
+            },
+            "bin": [
+                "bin/phpcs",
+                "bin/phpcbf"
+            ],
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.x-dev"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Greg Sherwood",
+                    "role": "lead"
+                }
+            ],
+            "description": "PHP_CodeSniffer tokenizes PHP, JavaScript and CSS files and detects violations of a defined set of coding standards.",
+            "homepage": "https://github.com/squizlabs/PHP_CodeSniffer",
+            "keywords": [
+                "phpcs",
+                "standards"
+            ],
+            "support": {
+                "issues": "https://github.com/squizlabs/PHP_CodeSniffer/issues",
+                "source": "https://github.com/squizlabs/PHP_CodeSniffer",
+                "wiki": "https://github.com/squizlabs/PHP_CodeSniffer/wiki"
+            },
+            "time": "2021-12-12T21:44:58+00:00"
+        },
+        {
             "name": "symfony/filesystem",
             "version": "v6.0.6",
             "source": {
@@ -8601,7 +8693,9 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "fossbarrow/laravel-phpcs": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {

@@ -12,7 +12,7 @@ class Photo extends Model
     use HasFactory;
 
     protected $fillable = [
-        'image', 'user_id', 'preview'
+        'image', 'user_id', 'preview',
     ];
 
     public function users(): BelongsTo

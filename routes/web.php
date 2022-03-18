@@ -4,6 +4,7 @@ use App\Http\Controllers\formController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\imageController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes

@@ -18,12 +18,11 @@ class formController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-
     }
 
     public function check($user_id)
     {
-        if ($user_id != Auth::id() ) {
+        if ($user_id != Auth::id()) {
             die;
         }
     }
@@ -35,12 +34,12 @@ class formController extends Controller
             'svg',
             [
             'File' => $this->url,
-        ],
+            ],
             'png'
         );
         $result->saveFiles(public_path('images'));
 
-        return Response()->json(['success'=>'Image Update Successfully']);
+        return Response()->json(['success' => 'Image Update Successfully']);
     }
 
     public function line(Request $request)
@@ -66,7 +65,7 @@ class formController extends Controller
             imagejpeg(($this->photo), $this->url);
         }
         $preview = new previewController();
-        $previewImage=$preview->makePreview($image->image);
+        $previewImage = $preview->makePreview($image->image);
         return redirect()->action($this->svgGenerate());
     }
 
@@ -94,7 +93,7 @@ class formController extends Controller
         }
 
         $preview = new previewController();
-        $previewImage=$preview->makePreview($image->image);
+        $previewImage = $preview->makePreview($image->image);
         return redirect()->action($this->svgGenerate());
     }
 
@@ -121,7 +120,7 @@ class formController extends Controller
             imagejpeg(($this->photo), $this->url);
         }
         $preview = new previewController();
-        $previewImage=$preview->makePreview($image->image);
+        $previewImage = $preview->makePreview($image->image);
         return redirect()->action($this->svgGenerate());
     }
 
@@ -145,7 +144,7 @@ class formController extends Controller
         $image = Photo::find($request->id);
         $this->check($image->user_id);
         $this->url = public_path('images') . '/' . $image->image;
-       var_dump((($this->url)));
+        var_dump((($this->url)));
         if (mime_content_type($this->url) == "image/png") {
             $this->photo = (imagecreatefrompng($this->url));
             imagefilledpolygon($this->photo, $values, 3, $request->color);
@@ -156,7 +155,7 @@ class formController extends Controller
             imagejpeg(($this->photo), $this->url);
         }
         $preview = new previewController();
-        $previewImage=$preview->makePreview($image->image);
+        $previewImage = $preview->makePreview($image->image);
         return redirect()->action($this->svgGenerate());
     }
 
@@ -183,8 +182,7 @@ class formController extends Controller
             imagejpeg(($this->photo), $this->url);
         }
         $preview = new previewController();
-        $previewImage=$preview->makePreview($image->image);
+        $previewImage = $preview->makePreview($image->image);
         return redirect()->action($this->svgGenerate());
     }
-
 }
