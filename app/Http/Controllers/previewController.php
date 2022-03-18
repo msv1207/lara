@@ -21,7 +21,7 @@ class previewController extends Controller
         if (mime_content_type($url) == 'image/png') {
             $source = imagecreatefrompng($filename);
             imagecopyresized($thumb, $source, 0, 0, 0, 0, $newwidth, $newheight, $width, $height);
-            imagepng($thumb, public_path('images') . '/' . 'preview' . $image, 50);
+            imagepng($thumb, public_path('images') . '/' . 'preview' . $image, 5);
         } else {
             $source = imagecreatefromjpeg($filename);
             imagecopyresized($thumb, $source, 0, 0, 0, 0, $newwidth, $newheight, $width, $height);
