@@ -6,16 +6,17 @@ use Illuminate\Http\Request;
 
 class previewController extends Controller
 {
+    const percent=0.5;
     public function makePreview($image)
     {
         if (file_exists(public_path('images') .'/'. 'preview' . $image)) {
             unlink(public_path('images') .'/'. 'preview' . $image);
         }
         $filename = (public_path('images') . '/' . $image);
-        $percent = 0.5;
+
         list($width, $height) = getimagesize($filename);
-        $newwidth = $width * $percent;
-        $newheight = $height * $percent;
+        $newwidth = $width * percent;
+        $newheight = $height * percent;
         $thumb = imagecreatetruecolor($newwidth, $newheight);
             $url = public_path('images') . '/' . $image;
         if (mime_content_type($url) == 'image/png') {

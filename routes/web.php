@@ -21,19 +21,19 @@ Route::view('update', 'updateImage');
 
 Route::view('/', 'uploadImage');
 
-Route::post('/line', [formController::class, 'line'])->name('line');
+Route::post('/line', [formController::class, 'line'])->name('line')->middleware('Auth');
 
-Route::post('/rectangle', [formController::class, 'rectangle'])->name('rectangle');
+Route::post('/rectangle', [formController::class, 'rectangle'])->name('rectangle')->middleware('Auth');
 
-Route::post('/arc', [formController::class, 'arc'])->name('arc');
+Route::post('/arc', [formController::class, 'arc'])->name('arc')->middleware('Auth');
 
-Route::post('/triangle', [formController::class, 'triangle'])->name('triangle');
+Route::post('/triangle', [formController::class, 'triangle'])->name('triangle')->middleware('Auth');
 
-Route::post('/text', [formController::class, 'text'])->name('text');
+Route::post('/text', [formController::class, 'text'])->name('text')->middleware('Auth');
 
 Auth::routes();
 
-Route::get('/home', [HomeController::class, 'index']);
+Route::get('/home', [HomeController::class, 'index'])->middleware('Auth');
 
 
-Route::resource('image', imageController::class);
+Route::resource('image', imageController::class)->middleware('Auth');

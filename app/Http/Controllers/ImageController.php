@@ -10,11 +10,6 @@ use Illuminate\Support\Facades\Auth;
 class imageController extends Controller
 {
 
-
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
     /**
      * Display a listing of the resource.
      *
@@ -66,18 +61,19 @@ class imageController extends Controller
         $id = Auth::user()->id;
         $preview = new previewController();
         $previewImage = $preview->makePreview($input['image']);
+        $time=Carbon::now();
         Photo::query()->insert([
             [
                 'image' => $input['image'],
                 'user_id' => $id,
                 'preview' => '0',
-                'created_at' => Carbon::now(),
+                'created_at' => $time,
             ],
             [
                 'image' => $previewImage,
                 'user_id' => $id,
                 'preview' => '1',
-                'created_at' => Carbon::now(),
+                'created_at' => $time,
 
             ],
         ]);
